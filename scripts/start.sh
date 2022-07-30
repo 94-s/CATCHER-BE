@@ -7,7 +7,7 @@ ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
 source ${ABSDIR}/profile.sh
 
-REPOSITORY=/home/ec2-user/
+REPOSITORY=/home/ec2-user
 PROJECT_NAME=catcher
 
 echo "> Build 파일 복사"
