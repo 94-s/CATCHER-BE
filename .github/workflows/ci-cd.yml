@@ -73,5 +73,5 @@ jobs:
         --application-name catcher \
         --deployment-group-name catcher-deploy-group \
         --file-exists-behavior OVERWRITE \
-        --s3-location bucket=springboot-catcher-build,bundleType=zip,key=springboot-catcher-build.zip \
+        --s3-location bucket=catcher-deploy-bucket,bundleType=zip,key=springboot-catcher-build.zip \
         --region ap-northeast-2
