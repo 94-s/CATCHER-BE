@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(){
-        return "hiasd";
+        return "무중단 TEST";
     }
 }
