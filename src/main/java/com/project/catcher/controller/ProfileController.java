@@ -19,7 +19,7 @@ public class ProfileController {
         List<String> realProfiles = Arrays.asList("real1", "real2");
         String defaultProfile = profiles.isEmpty()? "default" : profiles.get(0);
 
-        // real, real1, real2 중 하나라도 있으면 그 값 반환
+        // real1, real2 중 하나라도 있으면 그 값 반환
         return profiles.stream()
                 .filter(realProfiles::contains)
                 .findAny()
