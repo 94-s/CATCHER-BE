@@ -1,9 +1,7 @@
 package com.project.catcher.entity;
 
 import com.project.catcher.entity.enums.SocialType;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -13,7 +11,7 @@ import javax.persistence.*;
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
-public class Member extends BaseEntity{
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
