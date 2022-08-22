@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AccuseService {
 
-    private final AccuseTypeRepository accuseTypeRepository;
-
-    public AccuseType getAccuseType(Long accuseTypeId) {
-
-        AccuseType accuseType = accuseTypeRepository.findById(accuseTypeId).get();
-        return accuseType;
-
-    }
+//    private final AccuseTypeRepository accuseTypeRepository;
+//
+//    public AccuseType getAccuseType(Long accuseTypeId) {
+//
+//        AccuseType accuseType = accuseTypeRepository.findById(accuseTypeId).get();
+//        return accuseType;
+//
+//    }
 }

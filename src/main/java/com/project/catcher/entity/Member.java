@@ -1,6 +1,6 @@
 package com.project.catcher.entity;
 
-import com.project.catcher.entity.enums.SocialType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -18,15 +18,14 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(name = "oauth_id", nullable = false)
+    private String oauthId;
+
     @Column(name = "email", length = 100, nullable = false, unique = true)
     private String email;
 
     @Column(name = "nickname", length = 10, nullable = false, unique = true)
     private String nickname;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "social_login_type", length = 20, nullable = false)
-    private SocialType socialLoginType;
 
     @Column(name = "is_delete", nullable = false)
     @ColumnDefault("False")
@@ -37,6 +36,27 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "created_by")
     private Long createdBy;
+
+    protected Member(){
+
+    }
+
+    @Builder
+    public Member(Long id, String oauthId, String email, String nickname, Boolean isDelete, String imgUrl, Long createdBy) {
+        this.id = id;
+        this.oauthId = oauthId;
+        this.email = email;
+        this.nickname = nickname;
+        this.isDelete = isDelete;
+        this.imgUrl = imgUrl;
+        this.createdBy = createdBy;
+    }
+
+    public Member update(String nickname, String email) {
+        this.nickname = nickname;
+        this.email = email;
+        return this;
+    }
 
 
 }

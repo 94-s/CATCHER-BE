@@ -20,10 +20,10 @@ public class AccuseController {
     // 조회
     // GET
     //   /accuse-type/{id}
-    @GetMapping("/{id}")
-    public AccuseType getAccuseType(@PathVariable("id") Long accuseTypeId){
-        return accuseService.getAccuseType(accuseTypeId);
-    }
+//    @GetMapping("/{id}")
+//    public AccuseType getAccuseType(@PathVariable("id") Long accuseTypeId){
+//        return accuseService.getAccuseType(accuseTypeId);
+//    }
 
     // Accuse Type 생성
     // POST
