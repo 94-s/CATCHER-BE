@@ -71,7 +71,7 @@ public class OauthService {
                 .post()
                 .uri(provider.getTokenUrl())
                 .headers(header -> {
-                    header.setBasicAuth(provider.getClientId(), provider.getClientSecret());
+//                    header.setBasicAuth(provider.getClientId(), provider.getClientSecret());
                     header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
                     header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                     header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
@@ -87,6 +87,8 @@ public class OauthService {
         formData.add("code", code);
         formData.add("grant_type", "authorization_code");
         formData.add("redirect_uri", provider.getRedirectUrl());
+        formData.add("client_secret",provider.getClientSecret());
+        formData.add("client_id", provider.getClientId());
         return formData;
     }
 

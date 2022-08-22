@@ -23,11 +23,12 @@ public enum OauthAttributes {
     KAKAO("kakao") {
         @Override
         public UserProfile of(Map<String, Object> attributes) {
-            Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+            Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
+            Map<String, Object> kakaoNickname = (Map<String, Object>) kakaoAccount.get("profile");
             return UserProfile.builder()
-                    .oauthId((String) response.get("id"))
-                    .email((String) response.get("account_email"))
-                    .nickname((String) response.get("profile_nickname"))
+                    .oauthId(String.valueOf(attributes.get("id")))
+                    .email((String) kakaoAccount.get("email"))
+                    .nickname((String) kakaoNickname.get("nickname"))
                     .build();
         }
     };
