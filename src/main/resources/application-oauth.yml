@@ -3,7 +3,9 @@ oauth2:
     kakao:
       client-id: 0320ef81c92e35eb95e38e18be1bba48
       client-secret: Y2bpWERVMoJFoybA3qWXjmXCivQm4uxT
-      redirect-uri: http://localhost:8080/redirect/oauth
+#      redirect-uri: http://localhost:8080/redirect/oauth
+      redirect-uri: http://3.39.179.232:80/redirect/oauth
+
 #    naver:
 #      client-id: sCfhQHgPVQFFf8RTGjVe
 #      client-secret: 비밀키
