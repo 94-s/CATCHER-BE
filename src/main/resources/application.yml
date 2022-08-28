@@ -4,6 +4,8 @@ spring:
     url: jdbc:mariadb://catcher.ccnmfvd4t0d1.ap-northeast-2.rds.amazonaws.com:3306/catcher?characterEncoding=UTF-8&serverTimezone=UTC
     username: catcher
     password: catchercatcher
+  profiles:
+    include: oauth
 
   jpa:
     hibernate:
