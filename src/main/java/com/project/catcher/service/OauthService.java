@@ -67,19 +67,21 @@ public class OauthService {
     }
 
     private OauthTokenResponse getToken(String code, OauthProvider provider) {
-        return WebClient.create()
-                .post()
-                .uri(provider.getTokenUrl())
-                .headers(header -> {
-//                    header.setBasicAuth(provider.getClientId(), provider.getClientSecret());
-                    header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-                    header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-                    header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
-                })
-                .bodyValue(tokenRequest(code, provider))
-                .retrieve()
-                .bodyToMono(OauthTokenResponse.class)
-                .block();
+            return WebClient.create()
+                    .post()
+                    .uri(provider.getTokenUrl())
+                    .headers(header -> {
+//                        header.setBasicAuth(provider.getClientId(), provider.getClientSecret());
+                        header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+                        header.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+                        header.setAcceptCharset(Collections.singletonList(StandardCharsets.UTF_8));
+                    })
+                    .bodyValue(tokenRequest(code, provider))
+                    .retrieve()
+                    .bodyToMono(OauthTokenResponse.class)
+                    .block();
+
+
     }
 
     private MultiValueMap<String, String> tokenRequest(String code, OauthProvider provider) {
