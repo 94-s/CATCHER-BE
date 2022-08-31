@@ -1,21 +1,11 @@
 package com.project.catcher.controller;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityManager;
-
 @RestController
 public class HomeController {
-
-    @Autowired
-    EntityManager em;
-
-    @Autowired
-    JPAQueryFactory jpaQueryFactory;
 
     @GetMapping("/")
     @Transactional
@@ -34,6 +24,6 @@ public class HomeController {
 ////        Member member1 = em.find(Member.class, member.getId());
 //
 //        List<Member> fetch = jpaQueryFactory.selectFrom(QMember.member).fetch();
-        return "test";
+        return "deploy test";
     }
 }
