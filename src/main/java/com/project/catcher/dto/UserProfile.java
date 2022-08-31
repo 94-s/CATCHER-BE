@@ -3,7 +3,6 @@ package com.project.catcher.dto;
 import com.project.catcher.entity.Member;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
 public class UserProfile {
