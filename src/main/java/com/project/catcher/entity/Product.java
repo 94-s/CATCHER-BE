@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
@@ -39,15 +40,15 @@ public class Product extends BaseTimeEntity{
   private Long hits;
 
   @ManyToOne
-  @Column(name = "create_by")
+  @JoinColumn(name = "create_by")
   private Member createBy;
 
   @ManyToOne
-  @Column(name = "update_by")
+  @JoinColumn(name = "update_by")
   private Member updateBy;
 
   @ManyToOne
-  @Column(name = "product_category_id")
+  @JoinColumn(name = "product_category_id")
   private ProductCategory productCategoryId;
 
   //brand_id 작업 필요
