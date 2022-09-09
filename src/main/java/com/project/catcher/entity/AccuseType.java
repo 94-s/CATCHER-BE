@@ -9,8 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "accuse_type")
 @Getter
-@Setter
-public class AccuseType {
+public class AccuseType extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

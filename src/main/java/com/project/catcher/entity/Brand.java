@@ -5,15 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-//import javax.persistence.JoinColumn;
-//import javax.persistence.ManyToOne;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
-public class Brand extends BaseEntity {
+public class Brand extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +24,9 @@ public class Brand extends BaseEntity {
 
     @Column(name = "hits")
     private Long hits;
+
+    //이미지 필드 추가
+    @Column(name = "img")
+    private String img;
 
 }

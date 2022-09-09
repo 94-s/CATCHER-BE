@@ -8,11 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 public class Accuse extends BaseEntity {
 
     @Id
@@ -30,9 +28,5 @@ public class Accuse extends BaseEntity {
 
     @Column(name = "content")
     private String content;
-
-    @ManyToOne
-    @JoinColumn(name = "created_by")
-    private Member createBy;
 
 }
