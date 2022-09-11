@@ -24,6 +24,6 @@ public class HomeController {
 ////        Member member1 = em.find(Member.class, member.getId());
 //
 //        List<Member> fetch = jpaQueryFactory.selectFrom(QMember.member).fetch();
-        return "deploy test";
+        return "deploy test1";
     }
 }

@@ -25,7 +25,6 @@ public class UserProfile {
                 .nickname(nickname)
                 .imgUrl("a")
                 .isDelete(false)
-                .createdBy(1L)
                 .build();
     }
 

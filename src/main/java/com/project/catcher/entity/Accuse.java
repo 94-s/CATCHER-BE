@@ -1,10 +1,17 @@
 package com.project.catcher.entity;
 
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import lombok.Getter;
 
 @Entity
-public class Accuse {
+@Getter
+public class Accuse extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,15 +23,10 @@ public class Accuse {
     private AccuseType accuseType;
 
     @ManyToOne
-    @JoinColumn(name = "created_by")
-    private Member createdBy;
-
-    @ManyToOne
     @JoinColumn(name = "accused_id")
     private Member accusedMember;
 
     @Column(name = "content")
     private String content;
-
 
 }
