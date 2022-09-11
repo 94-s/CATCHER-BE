@@ -12,10 +12,10 @@ public class Like extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_Id")
-    private Long productId;
+    private Product productId;
 
     @ManyToOne
     @JoinColumn(name = "member_Id")
-    private Long memberId;
+    private Member memberId;
 }
 

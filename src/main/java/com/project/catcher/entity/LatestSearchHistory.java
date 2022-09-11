@@ -15,5 +15,5 @@ public class LatestSearchHistory extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Long memberId;
+    private Member memberId;
 }
