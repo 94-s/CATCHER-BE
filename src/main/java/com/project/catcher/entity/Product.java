@@ -8,22 +8,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
-public class Product extends BaseTimeEntity{
+@Builder
+@AllArgsConstructor
+public class Product extends BaseEntity{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "product_id")
   private Long id;
 
-  @Column(name = "name", nullable = false)
+  @Column(name = "name", nullable = false, length = 100)
   private String name;
 
-  @Column(name = "description", nullable = false)
+  @Column(name = "description", nullable = false, length = 2500)
   private String description;
 
   @Column(name = "price", nullable = false)
@@ -37,24 +42,32 @@ public class Product extends BaseTimeEntity{
   private LocalDateTime renewAt;
 
   @Column(name = "hits", nullable = false)
+  @ColumnDefault("0")
   private Long hits;
-
-  @ManyToOne
-  @JoinColumn(name = "create_by")
-  private Member createBy;
-
-  @ManyToOne
-  @JoinColumn(name = "update_by")
-  private Member updateBy;
 
   @ManyToOne
   @JoinColumn(name = "product_category_id")
   private ProductCategory productCategoryId;
 
   //brand_id 작업 필요
-//  @ManyToOne
-//  @Column(name = "brand_id",nullable = false)
-//  private Brand brandId;
+  @ManyToOne
+  @JoinColumn(name = "brand_id",nullable = false)
+  private Brand brandId;
 
+  protected Product() {
+  }
 
+  public void delete() {
+    this.isDelete = true;
+  }
+
+  public void update(String name, String description, Integer price,
+       ProductCategory productCategoryId,
+      Brand brandId) {
+    this.name = name;
+    this.description = description;
+    this.price = price;
+    this.productCategoryId = productCategoryId;
+    this.brandId = brandId;
+  }
 }

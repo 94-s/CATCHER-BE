@@ -1,5 +1,5 @@
 package com.project.catcher.repository;
 
-public class ProductRepositoryImpl implements ProductRepository{
+public class ProductRepositoryImpl{
 
 }
