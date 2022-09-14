@@ -24,9 +24,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ProductService {
 
@@ -45,6 +47,7 @@ public class ProductService {
     return createGetDto(product);
   }
 
+  @Transactional
   public Long createProduct(ProductCreateDto dto,List<MultipartFile> productImgs) {
 
     // 향후 member util로 변경
@@ -64,13 +67,17 @@ public class ProductService {
     Product product = dto.toProduct(brand, productCategory);
     List<String> productUrls = createProductImg(member.getNickname(), productImgs);
 
+    productRepository.save(product);
+
     for(String url : productUrls) {
-      ProductImg.builder().productId(product).imgUrl(url).build();
+      ProductImg productImg = ProductImg.builder().productId(product).imgUrl(url).build();
+      productImgRepository.save(productImg);
     }
 
     return product.getId();
   }
 
+  @Transactional
   public List<String> createProductImg(String nickname, List<MultipartFile> productImgs) {
 
     StringBuilder sb = new StringBuilder();
@@ -144,6 +151,7 @@ public class ProductService {
         .build();
   }
 
+  @Transactional
   public Long deleteProduct(Long id) {
 
     Optional<Product> productOp = productRepository.findById(id);
@@ -154,6 +162,7 @@ public class ProductService {
     return product.getId();
   }
 
+  @Transactional
   public Long updateProduct(Long id, ProductUpdateDto dto, List<MultipartFile> productImgs) {
 
     // 향후 member util로 변경
@@ -190,6 +199,7 @@ public class ProductService {
 
     return product.getId();
   }
+  @Transactional
   public void deleteProductImgs(Product product) {
 
     List<ProductImg> productImgs = productImgRepository.findAllByProductId(product);
