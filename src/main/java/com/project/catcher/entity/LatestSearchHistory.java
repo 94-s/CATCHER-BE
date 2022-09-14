@@ -1,9 +1,15 @@
 package com.project.catcher.entity;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
-public class LatestSearchHistory extends BaseEntity {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class LatestSearchHistory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +19,7 @@ public class LatestSearchHistory extends BaseEntity {
     @Column(name = "query", length = 50)
     private String query;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member memberId;
 }
