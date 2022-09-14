@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "latest_search_history")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LatestSearchHistory extends BaseTimeEntity {
