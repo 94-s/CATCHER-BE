@@ -1,3 +1,15 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAWU5EDN7YUESCT5O4
+      secret-key: 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
+    s3:
+      bucket: catcha
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
@@ -14,8 +26,6 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
-
-
 logging:
   level:
     org.hibernate:
