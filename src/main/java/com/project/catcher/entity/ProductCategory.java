@@ -11,11 +11,11 @@ import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
-public class ProductCategory extends BaseTimeEntity{
+public class ProductCategory{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "product_id")
+  @Column(name = "product_category_id")
   private Long id;
 
   @Column(name = "name", length = 50)

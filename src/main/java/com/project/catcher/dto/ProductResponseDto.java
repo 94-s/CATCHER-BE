@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class ProductResponse {
+public class ProductResponseDto {
 
 
   @Getter
@@ -33,7 +33,23 @@ public class ProductResponse {
     String nickname;
     String profileImg;
 
-
+    @Override
+    public String toString() {
+      return "ProductGetDto{" +
+          "id=" + id +
+          ", name='" + name + '\'' +
+          ", description='" + description + '\'' +
+          ", price=" + price +
+          ", hits=" + hits +
+          ", createAt=" + createAt +
+          ", updateAt=" + updateAt +
+          ", category='" + category + '\'' +
+          ", productImgs=" + productImgs +
+          ", brand='" + brand + '\'' +
+          ", nickname='" + nickname + '\'' +
+          ", profileImg='" + profileImg + '\'' +
+          '}';
+    }
   }
 
 

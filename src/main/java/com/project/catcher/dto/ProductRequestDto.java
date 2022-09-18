@@ -3,16 +3,12 @@ package com.project.catcher.dto;
 import com.project.catcher.entity.Brand;
 import com.project.catcher.entity.Product;
 import com.project.catcher.entity.ProductCategory;
-import com.project.catcher.entity.ProductImg;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
-public class ProductRequest {
+public class ProductRequestDto {
 
   @Getter
   @Builder
@@ -32,8 +28,12 @@ public class ProductRequest {
     Long memberId;
 
     public Product toProduct(Brand brand, ProductCategory productCategory){
-      return Product.builder().name(name).description(description).price(price).brandId(brand)
+      Product product = Product.builder().name(name).description(description).price(price)
+          .brandId(brand)
           .productCategoryId(productCategory).build();
+//      Product product = new Product(name,description,price,productCategory,brand);
+      product.setCreatedBy(1L);
+      return product;
     }
   }
 

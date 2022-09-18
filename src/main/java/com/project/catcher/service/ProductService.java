@@ -1,14 +1,14 @@
 package com.project.catcher.service;
 
-import com.project.catcher.dto.ProductRequest;
-import com.project.catcher.dto.ProductRequest.ProductCreateDto;
-import com.project.catcher.dto.ProductRequest.ProductUpdateDto;
-import com.project.catcher.dto.ProductResponse.ProductGetDto;
+import com.project.catcher.dto.ProductRequestDto.ProductCreateDto;
+import com.project.catcher.dto.ProductRequestDto.ProductUpdateDto;
+import com.project.catcher.dto.ProductResponseDto.ProductGetDto;
 import com.project.catcher.entity.Brand;
 import com.project.catcher.entity.Member;
 import com.project.catcher.entity.Product;
 import com.project.catcher.entity.ProductCategory;
 import com.project.catcher.entity.ProductImg;
+import com.project.catcher.repository.BrandRepository;
 import com.project.catcher.repository.MemberRepository;
 import com.project.catcher.repository.ProductCategoryRepository;
 import com.project.catcher.repository.ProductImgRepository;
@@ -17,9 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +34,8 @@ public class ProductService {
   private final ProductCategoryRepository productCategoryRepository;
   private final ProductImgRepository productImgRepository;
   private final MemberRepository memberRepository;
-//  private final BrandRepository brandRepository;
+  private final BrandRepository brandRepository;
+  private final S3UploadService s3UploadService;
 
   public ProductGetDto getProduct(Long id) {
 
@@ -48,7 +47,8 @@ public class ProductService {
   }
 
   @Transactional
-  public Long createProduct(ProductCreateDto dto,List<MultipartFile> productImgs) {
+  public Long createProduct(ProductCreateDto dto,List<MultipartFile> productImgs)
+      throws IOException {
 
     // 향후 member util로 변경
     Long memberId = dto.getMemberId();
@@ -56,15 +56,18 @@ public class ProductService {
     Member member = memberOp.get();
 
     Long categoryId = dto.getCategoryId();
-    Long brandId = dto.getBrandId();
+//    Long brandId = dto.getBrandId();
 
     Optional<ProductCategory> productCategoryOp = productCategoryRepository.findById(categoryId);
     ProductCategory productCategory = productCategoryOp.get();
 
     //brandRepsitory 만들어지면 수정
-    Brand brand = new Brand();
+//    Brand brand = new Brand();
+
+    Brand brand = brandRepository.findById(1L).get();
 
     Product product = dto.toProduct(brand, productCategory);
+
     List<String> productUrls = createProductImg(member.getNickname(), productImgs);
 
     productRepository.save(product);
@@ -78,36 +81,24 @@ public class ProductService {
   }
 
   @Transactional
-  public List<String> createProductImg(String nickname, List<MultipartFile> productImgs) {
+  public List<String> createProductImg(String nickname, List<MultipartFile> productImgs)
+      throws IOException {
 
-    StringBuilder sb = new StringBuilder();
-    sb.append(nickname);
+    List<String> productUrls = new ArrayList<>();
 
-    List<String> productImgUrls = new ArrayList<>();
+    if(productImgs == null) return productUrls;
 
-    if (!productImgs.isEmpty()) {
-      for (MultipartFile imageName : productImgs) {
-        sb.append(imageName.getOriginalFilename());
-        String fileName = "/home/ec2-user/images/product/" + sb;
-
-        File dest = new File(fileName);
-        try {
-          imageName.transferTo(dest);
-          productImgUrls.add(fileName);
-        } catch (IllegalStateException e) {
-          e.printStackTrace();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
-      }
+    for(MultipartFile img : productImgs) {
+      String imgUrl = s3UploadService.upload(img, "product");
+      productUrls.add(imgUrl);
     }
 
-    return productImgUrls;
+    return productUrls;
   }
 
   public List<ProductGetDto> getProductList() {
 
-    List<Product> productList = productRepository.findAll();
+    List<Product> productList = productRepository.findAllByIsDeleteIsFalse();
     List<ProductGetDto> productGetDtoList = new ArrayList<>();
 
     for(Product product : productList) {
@@ -120,7 +111,7 @@ public class ProductService {
 
   public ProductGetDto createGetDto(Product product) {
 
-    List<ProductImg> productImgs = productImgRepository.findAllByProductId(product);
+    List<ProductImg> productImgs = productImgRepository.findAllByProductIdAndIsDeleteFalse(product);
 
     Long productId = product.getId();
     String productName = product.getName();
@@ -163,7 +154,8 @@ public class ProductService {
   }
 
   @Transactional
-  public Long updateProduct(Long id, ProductUpdateDto dto, List<MultipartFile> productImgs) {
+  public Long updateProduct(Long id, ProductUpdateDto dto, List<MultipartFile> productImgs)
+      throws IOException {
 
     // 향후 member util로 변경
     Long memberId = dto.getMemberId();
@@ -185,16 +177,19 @@ public class ProductService {
     ProductCategory productCategory = productCategoryOp.get();
 
     //brandRepsitory 만들어지면 수정
-    Brand brand = new Brand();
+//    Brand brand = new Brand();
+    Brand brand = brandRepository.findById(1L).get();
 
     product.update(productName,description,price,productCategory,brand);
 
+//    if(productImgs.size() != 0)
     deleteProductImgs(product);
 
     List<String> productUrls = createProductImg(member.getNickname(), productImgs);
 
     for(String url : productUrls) {
-      ProductImg.builder().productId(product).imgUrl(url).build();
+      ProductImg img = ProductImg.builder().productId(product).imgUrl(url).build();
+      productImgRepository.save(img);
     }
 
     return product.getId();
@@ -202,7 +197,7 @@ public class ProductService {
   @Transactional
   public void deleteProductImgs(Product product) {
 
-    List<ProductImg> productImgs = productImgRepository.findAllByProductId(product);
+    List<ProductImg> productImgs = productImgRepository.findAllByProductIdAndIsDeleteFalse(product);
     for(ProductImg imgs : productImgs) {
       imgs.delete();
     }

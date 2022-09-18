@@ -21,4 +21,8 @@ public abstract class BaseEntity extends BaseTimeEntity{
     @LastModifiedBy
     @Column(name = "modified_by")
     private Long modifiedBy;
+
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy =createdBy;
+    }
 }

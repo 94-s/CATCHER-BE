@@ -3,6 +3,7 @@ package com.project.catcher.entity;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,10 +14,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @Builder
+@DynamicInsert
+@DynamicUpdate
 @AllArgsConstructor
 public class Product extends BaseEntity{
 
@@ -34,29 +39,30 @@ public class Product extends BaseEntity{
   @Column(name = "price", nullable = false)
   private Integer price;
 
-  @Column(name = "is_delete", nullable = false)
-  @ColumnDefault("False")
+  @Column(name = "is_delete")
+  @ColumnDefault("false")
   private Boolean isDelete;
 
   @Column(name = "renew_at")
   private LocalDateTime renewAt;
 
-  @Column(name = "hits", nullable = false)
-  @ColumnDefault("0")
+  @Column(name = "hits", columnDefinition = "0L")
+//  @ColumnDefault("0L")
   private Long hits;
 
-  @ManyToOne
+  @ManyToOne(fetch= FetchType.LAZY)
   @JoinColumn(name = "product_category_id")
   private ProductCategory productCategoryId;
 
   //brand_id 작업 필요
-  @ManyToOne
+  @ManyToOne(fetch= FetchType.LAZY)
   @JoinColumn(name = "brand_id",nullable = false)
   private Brand brandId;
 
   protected Product() {
   }
 
+  //  public static/
   public void delete() {
     this.isDelete = true;
   }
@@ -69,5 +75,20 @@ public class Product extends BaseEntity{
     this.price = price;
     this.productCategoryId = productCategoryId;
     this.brandId = brandId;
+  }
+
+  @Override
+  public String toString() {
+    return "Product{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", description='" + description + '\'' +
+        ", price=" + price +
+        ", isDelete=" + isDelete +
+        ", renewAt=" + renewAt +
+        ", hits=" + hits +
+        ", productCategoryId=" + productCategoryId +
+        ", brandId=" + brandId +
+        '}';
   }
 }

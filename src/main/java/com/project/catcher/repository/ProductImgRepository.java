@@ -13,4 +13,7 @@ public interface ProductImgRepository extends JpaRepository<ProductImg,Long> {
 
   List<ProductImg> findAllByProductId(Product product);
 
+  List<ProductImg> findAllByProductIdAndIsDeleteFalse(Product product);
+
+
 }
