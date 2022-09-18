@@ -15,7 +15,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class OauthConfig {
 
-
     private final OauthProperties properties;
 
     @Bean
