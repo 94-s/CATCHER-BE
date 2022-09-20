@@ -18,5 +18,5 @@ function switch_proxy() {
 
     echo "> 엔진엑스 Reload"
     # nignx reload. restart와는 다르게 설정 값만 불러옴
-    sudo nginx -s reload
+    sudo service nginx reload
 }
